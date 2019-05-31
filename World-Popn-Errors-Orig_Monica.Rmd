@@ -140,7 +140,7 @@ ctprop <- ct %>% mutate(PropF = TotF/Total, PropM = TotM/Total)
 
 ```{r ContinentPropPlot}
 library(ggplot2)
-ctprop %>%   ggplot(aes(Year, PropF), colour=Continent) %>% geom_line() +
+ctprop %>%   ggplot(aes(Year, PropF), colour=Continent) + geom_line() +
   geom_hline(yintercept = 0.5, lty=3) + scale_y_continuous(limits = c(.45, .55), 
   breaks = seq(0.45, .55, 0.01)) +  ylab("Female Proportion") 
 ```
