@@ -46,7 +46,7 @@ We want to answer the following questions with data:
 We start by reading the data from file `World-Population.csv` into object called `wpOrig`. 
 
 ```{r freadData}
-library(dplyR)
+library(dplyr)
 library(tidyR)
 library(readR)
 library(here)
