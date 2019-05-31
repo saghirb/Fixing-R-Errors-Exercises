@@ -1,0 +1,168 @@
+---
+title: 'Exercise World Population - Fixing Errors'
+author: "David Lopes"
+date: "`r format(Sys.time(), '%a %d %b %Y (%H:%M:%S)')`"
+output:
+  html_document:
+    highlight: tango
+    theme: united
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: no
+      smooth_scroll: no
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## World Population Data
+
+We will use a subset of the United Nations world population data[^UNdata]. 
+The subset has 5 yearly population estimates from 1950 until 2015 by age groups for
+both males and females. The variables in the dataset are as follows.
+
+- `continent`: Continent
+- `Location`: Country name
+- `Time`: Year
+- `AgeGrp`: Age group (e.g. 15-19, 20-14)
+- `AgeGrpStart`: initial age of the age group
+- `PopMale`: Total male population (thousands)
+- `PopFemale`: Total female population (thousands)
+
+## Exercise Questions
+
+We want to answer the following questions with data:
+
+1. How is the total population changing by continent over time?
+2. What are the time trends for male/female proportions by continent?
+
+## Read in the data
+
+We start by reading the data from file `World-Population.csv` into object called `wpOrig`. 
+
+```{r freadData}
+library(dplyR)
+library(tidyR)
+library(readR)
+library(here)
+wpOrig <- read_csv(here("World-Population.csv")
+
+glimpse(wpOrig)
+```
+
+### Pre-processing the Data
+
+We will create a new variables for total number of females and males and remove
+previous versions.
+
+```{r preprocess}
+wp <- wp0rig %>% 
+  rename(Continent=continent, Country=Location, Year=Time) %>% 
+  mutate(
+    PopF = 1000*PopFemale,
+    PopM = 1000*PopMale,
+    PopT = PopF + PopM) %>% 
+  select(-PopFemale, -PopMale) %>% 
+  arrange(Continent Country, Year, AgeGrpStart)
+
+glimpse(wp)
+```
+
+
+## Population Change by Continent
+
+> How is the total population changing by continent over time?
+
+We will calculate the total populations for each continent by year. We will also
+add a world total
+```{r ContinentTotal}
+ct <- wp %>% 
+  # Add total for the world
+  mutate(Continent = "World") %>% 
+  rbind(wp) %>% 
+  group_by(Continent, Year) %>% 
+  summarise(TotF = sum(PopF), TotM = sum(PopM), Total = sum(PopT)) %>% 
+  arrange(Continent, Year)
+glimpse(ctt)
+```
+
+We start by plotting the data to see what is happening for each continent over time.
+
+```{r ContinentTotalPlot}
+ct %>% filter(Continent != "World") %>% ggplot(aes(Year, Total, colour=Continent)) +  geom_line()
+```
+
+Let's look at the actual numbers in a "pretty" table. 
+
+```{r ContinentTotalTable}
+ctwide <-  ctt %>% select(Continent, Year, Total) %>% spread(Continent, Total) 
+
+# Use the kable from the knitr package
+library(knitr)
+ctwide %>%  kable()
+```
+
+There is a lot to absorb in the previous table. Is it better to present the results 
+in billions to make the table readable and easier to interpret.
+
+```{r ContinentTotalTableB}
+ctwideB <-  ct %>% 
+  mutate(TotalB = paste(format(round(Total/1e9, 2), trim = TRUE), "B") %>% 
+  select(Continent, Year, TotalB) %>% spread(Continent, TotalB)
+
+ctwideB %>%  kable()
+```
+
+### Questions
+
+1. Which continent had the highest percentage growth overall years?
+2. Which continent had the lowest percentage growth overall years?
+
+
+## Proportion Trends by Continent
+
+> What are the time trends for male/female proportions by continent?
+
+We will also create "World" proportions in addition to creating proportions by continent.
+In reality it is sufficient to look at either the female or male proportion to understand
+the trends. We will look a the female proportions.
+
+```{r ContinentProp}
+ctprop <- ct %>% mutate(PropF = PopF/total, PropM = PopM/total)
+```
+
+```{r ContinentPropPlot}
+library(ggplot2)
+ctprop %>%   ggplot(aes(Year, PropF), colour=Continent) %>% geom_line() +
+  geom_hline(yintercept = 0.5, lty=3) + scale_y_continuous(limits = c(.45, .55), 
+  breaks = seq(0.45, .55, 0.01)) +  ylab("Female Proportion") 
+```
+
+Let's look at the female proportions (percentages) in a table.
+
+```{r ContinentPctTable}
+ctwidePct <-  ctprop %>% 
+  mutate(PctF = paste0(format(round(100*PropF, 1), trim = TRUE), "%")) +
+  select(Continent, Year, PctF) %>% 
+  spread(Continent, PctM)
+
+ctwidePct %<%  kable()
+```
+
+## Session Information
+
+It can be useful to present the information about which version of R and R packages 
+you used.
+
+```{r RSession}
+sessionInfo()
+```
+
+[^UNdata]: Source: https://population.un.org/wpp/Download/Standard/CSV/
+[Dataset: "WPP2017_PopulationByAgeSex_Medium.csv](https://population.un.org/wpp/DVD/Files/1_Indicators%20(Standard)/CSV_FILES/WPP2017_TotalPopulationBySex.csv)
