@@ -46,11 +46,11 @@ We want to answer the following questions with data:
 We start by reading the data from file `World-Population.csv` into object called `wpOrig`. 
 
 ```{r freadData}
-library(dplyR)
-library(tidyR)
-library(readR)
+library(dplyr)
+library(tidyr)
+library(readr)
 library(here)
-wpOrig <- read_csv(here("World-Population.csv")
+wpOrig <- read_csv(here("World-Population.csv"))
 
 glimpse(wpOrig)
 ```
@@ -68,7 +68,7 @@ wp <- wp0rig %>%
     PopM = 1000*PopMale,
     PopT = PopF + PopM) %>% 
   select(-PopFemale, -PopMale) %>% 
-  arrange(Continent Country, Year, AgeGrpStart)
+  arrange(Continent, Country, Year, AgeGrpStart)
 
 glimpse(wp)
 ```
@@ -112,7 +112,7 @@ in billions to make the table readable and easier to interpret.
 
 ```{r ContinentTotalTableB}
 ctwideB <-  ct %>% 
-  mutate(TotalB = paste(format(round(Total/1e9, 2), trim = TRUE), "B") %>% 
+  mutate(TotalB = paste(format(round(Total/1e9, 2), trim = TRUE)), "B") %>% 
   select(Continent, Year, TotalB) %>% spread(Continent, TotalB)
 
 ctwideB %>%  kable()
