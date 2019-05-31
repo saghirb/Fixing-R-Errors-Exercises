@@ -148,11 +148,11 @@ Let's look at the female proportions (percentages) in a table.
 
 ```{r ContinentPctTable}
 ctwidePct <-  ctprop %>% 
-  mutate(PctF = paste0(format(round(100*PropF, 1), trim = TRUE), "%")) +
-  select(Continent, Year, PctF) %>% 
-  spread(Continent, PctM)
+  mutate(PctF = paste0(format(round(100*PropF, 1), trim = TRUE), "%")) %>%
+  select(Continent, Year, PctF)%>%
+  spread(Continent, PctF)
 
-ctwidePct %<%  kable()
+ctwidePct %>%  kable()
 ```
 
 ## Session Information
