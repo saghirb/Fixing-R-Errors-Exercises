@@ -138,7 +138,9 @@ the trends. We will look a the female proportions.
 
 ```{r ContinentProp}
 ctprop <- ctt %>% 
-  mutate(PropF = TotF/Total, PropM = TotM/Total)
+  mutate(
+    PropF = TotF/Total, PropM = TotM/Total
+    )
 ```
 
 ```{r ContinentPropPlot}
