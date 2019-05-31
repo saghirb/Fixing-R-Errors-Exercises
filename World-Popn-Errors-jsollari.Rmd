@@ -81,7 +81,7 @@ glimpse(wp)
 We will calculate the total populations for each continent by year. We will also
 add a world total
 ```{r ContinentTotal}
-ct <- wp %>% 
+ctt <- wp %>% 
   # Add total for the world
   mutate(Continent = "World") %>% 
   rbind(wp) %>% 
@@ -94,7 +94,8 @@ glimpse(ctt)
 We start by plotting the data to see what is happening for each continent over time.
 
 ```{r ContinentTotalPlot}
-ct %>% filter(Continent != "World") %>% ggplot(aes(Year, Total, colour=Continent)) +  geom_line()
+library(ggplot2)
+ctt %>% filter(Continent != "World") %>% ggplot(aes(Year, Total, colour=Continent)) +  geom_line()
 ```
 
 Let's look at the actual numbers in a "pretty" table. 
@@ -112,7 +113,7 @@ in billions to make the table readable and easier to interpret.
 
 ```{r ContinentTotalTableB}
 ctwideB <-  ct %>% 
-  mutate(TotalB = paste(format(round(Total/1e9, 2), trim = TRUE), "B") %>% 
+  mutate(TotalB = paste(format(round(Total/1e9, 2), trim = TRUE), "B")) %>% 
   select(Continent, Year, TotalB) %>% spread(Continent, TotalB)
 
 ctwideB %>%  kable()
