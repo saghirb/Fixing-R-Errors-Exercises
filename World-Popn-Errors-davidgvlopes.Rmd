@@ -135,12 +135,12 @@ In reality it is sufficient to look at either the female or male proportion to u
 the trends. We will look a the female proportions.
 
 ```{r ContinentProp}
-ctprop <- ct %>% mutate(PropF = PopF/total, PropM = PopM/total)
+ctprop <- ct %>% mutate(PropF = TotF/Total, TotM = TotM/Total)
 ```
 
 ```{r ContinentPropPlot}
 library(ggplot2)
-ctprop %>%   ggplot(aes(Year, PropF), colour=Continent) %>% geom_line() +
+ctprop %>%   ggplot(aes(Year, PropF), colour=Continent) + geom_line() +
   geom_hline(yintercept = 0.5, lty=3) + scale_y_continuous(limits = c(.45, .55), 
   breaks = seq(0.45, .55, 0.01)) +  ylab("Female Proportion") 
 ```
@@ -149,11 +149,11 @@ Let's look at the female proportions (percentages) in a table.
 
 ```{r ContinentPctTable}
 ctwidePct <-  ctprop %>% 
-  mutate(PctF = paste0(format(round(100*PropF, 1), trim = TRUE), "%")) +
+  mutate(PctF = paste0(format(round(100*PropF, 1), trim = TRUE), "%")) %>%
   select(Continent, Year, PctF) %>% 
-  spread(Continent, PctM)
+  spread(Continent, PctF)
 
-ctwidePct %<%  kable()
+ctwidePct %>%  kable()
 ```
 
 ## Session Information
