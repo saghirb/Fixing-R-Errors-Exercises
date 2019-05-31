@@ -81,7 +81,7 @@ glimpse(wp)
 We will calculate the total populations for each continent by year. We will also
 add a world total
 ```{r ContinentTotal}
-ct <- wp %>% 
+ctt <- wp %>% 
   # Add total for the world
   mutate(Continent = "World") %>% 
   rbind(wp) %>% 
