@@ -102,11 +102,13 @@ ct %>% filter(Continent != "World") %>%
 Let's look at the actual numbers in a "pretty" table. 
 
 ```{r ContinentTotalTable}
-ctwide <-  ctt %>% select(Continent, Year, Total) %>% spread(Continent, Total) 
+ctwide <-  ct %>% 
+  select(Continent, Year, Total) %>% 
+  spread(Continent, Total) 
 
 # Use the kable from the knitr package
 library(knitr)
-ctwide %>%  kable()
+ctwide %>% kable()
 ```
 
 There is a lot to absorb in the previous table. Is it better to present the results 
