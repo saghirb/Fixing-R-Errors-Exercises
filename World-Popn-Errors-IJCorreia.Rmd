@@ -94,7 +94,8 @@ glimpse(ct)
 We start by plotting the data to see what is happening for each continent over time.
 
 ```{r ContinentTotalPlot}
-ct %>% filter(Continent != "World") %>% ggplot(aes(Year, Total, colour=Continent)) +  geom_line()
+ct %>% filter(Continent != "World") %>% 
+  ggplot(aes(Year, Total, colour=Continent)) +  geom_line()
 ```
 
 Let's look at the actual numbers in a "pretty" table. 
