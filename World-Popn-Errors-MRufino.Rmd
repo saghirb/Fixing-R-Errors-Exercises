@@ -136,15 +136,17 @@ ctwideB <-  ct %>%
   dplyr::select(Continent, Year, TotalB) %>% 
   spread(Continent, TotalB)
 
-ctwideB %>%  kable()
+ctwideB %>%  
+  kable()
 
 ```
 
 ### Questions
 
 1. Which continent had the highest percentage growth overall years?
+Asia
 2. Which continent had the lowest percentage growth overall years?
-
+Oceania
 
 ## Proportion Trends by Continent
 
@@ -155,25 +157,38 @@ In reality it is sufficient to look at either the female or male proportion to u
 the trends. We will look a the female proportions.
 
 ```{r ContinentProp}
-ctprop <- ct %>% mutate(PropF = PopF/total, PropM = PopM/total)
+
+ctprop <- ct %>% 
+  dplyr::mutate(PropF = TotF/Total, PropM = TotM/Total)
+
 ```
 
 ```{r ContinentPropPlot}
+
 library(ggplot2)
-ctprop %>%   ggplot(aes(Year, PropF), colour=Continent) %>% geom_line() +
-  geom_hline(yintercept = 0.5, lty=3) + scale_y_continuous(limits = c(.45, .55), 
-  breaks = seq(0.45, .55, 0.01)) +  ylab("Female Proportion") 
+ctprop %>%   
+    ggplot(aes(Year, PropF, colour=Continent))+   
+    geom_line() +
+    geom_hline(yintercept = 0.5, lty=3) + scale_y_continuous(limits = c(.45, .55), 
+    breaks = seq(0.45, .55, 0.01)) +  ylab("Proportion of ladies")+
+  geom_point(size=.5, col="grey",shape=21)+
+  theme_minimal()
+
+
 ```
 
 Let's look at the female proportions (percentages) in a table.
 
 ```{r ContinentPctTable}
-ctwidePct <-  ctprop %>% 
-  mutate(PctF = paste0(format(round(100*PropF, 1), trim = TRUE), "%")) +
-  select(Continent, Year, PctF) %>% 
-  spread(Continent, PctM)
 
-ctwidePct %<%  kable()
+ctwidePct <-  ctprop %>% 
+  dplyr::mutate(PctF = paste0(format(round(100*PropF, 1), trim = TRUE), "%")) %>% 
+  dplyr::select(Continent, Year, PctF) %>% 
+  spread(Continent, PctF)
+
+ctwidePct %>% 
+  kable()
+
 ```
 
 ## Session Information
