@@ -1,6 +1,6 @@
 ---
 title: 'Exercise World Population - Fixing Errors'
-author: "Type your name here!"
+author: "Pedro Fonseca"
 date: "`r format(Sys.time(), '%a %d %b %Y (%H:%M:%S)')`"
 output:
   html_document:
