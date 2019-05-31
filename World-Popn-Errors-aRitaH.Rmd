@@ -101,7 +101,7 @@ ct %>% filter(Continent != "World") %>% ggplot(aes(Year, Total, colour=Continent
 Let's look at the actual numbers in a "pretty" table. 
 
 ```{r ContinentTotalTable}
-ctwide <-  ctt %>% select(Continent, Year, Total) %>% spread(Continent, Total) 
+ctwide <-  ct %>% select(Continent, Year, Total) %>% spread(Continent, Total) 
 
 # Use the kable from the knitr package
 library(knitr)
