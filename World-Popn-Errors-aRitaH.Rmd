@@ -88,7 +88,7 @@ ct <- wp %>%
   group_by(Continent, Year) %>% 
   summarise(TotF = sum(PopF), TotM = sum(PopM), Total = sum(PopT)) %>% 
   arrange(Continent, Year)
-glimpse(ctt)
+glimpse(ct)
 ```
 
 We start by plotting the data to see what is happening for each continent over time.
