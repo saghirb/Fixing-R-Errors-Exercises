@@ -111,7 +111,7 @@ There is a lot to absorb in the previous table. Is it better to present the resu
 in billions to make the table readable and easier to interpret.
 
 ```{r ContinentTotalTableB}
-ctwideB <-  ct %>% 
+ctwideB <-  ctt %>% 
   mutate(TotalB = paste(format(round(Total/1e9, 2), trim = TRUE), "B")) %>% 
   select(Continent, Year, TotalB) %>% 
   spread(Continent, TotalB)
@@ -134,7 +134,8 @@ In reality it is sufficient to look at either the female or male proportion to u
 the trends. We will look a the female proportions.
 
 ```{r ContinentProp}
-ctprop <- ct %>% mutate(PropF = PopF/total, PropM = PopM/total)
+ctprop <- ctt %>% 
+  mutate(PropF = TotF/Total, PropM = TotM/Total)
 ```
 
 ```{r ContinentPropPlot}
