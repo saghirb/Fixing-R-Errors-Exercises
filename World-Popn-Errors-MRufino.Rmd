@@ -114,22 +114,30 @@ ggplot(aes(Year, Total, colour=Continent)) +  geom_line()+
 Let's look at the actual numbers in a "pretty" table. 
 
 ```{r ContinentTotalTable}
-ctwide <-  ctt %>% select(Continent, Year, Total) %>% spread(Continent, Total) 
+
+ctwide <-  ct %>% 
+  dplyr::select(Continent, Year, Total) %>%
+  tidyr::spread(Continent, Total) 
 
 # Use the kable from the knitr package
 library(knitr)
-ctwide %>%  kable()
+ctwide %>%  
+  kable()
+
 ```
 
 There is a lot to absorb in the previous table. Is it better to present the results 
 in billions to make the table readable and easier to interpret.
 
 ```{r ContinentTotalTableB}
+
 ctwideB <-  ct %>% 
-  mutate(TotalB = paste(format(round(Total/1e9, 2), trim = TRUE), "B") %>% 
-  select(Continent, Year, TotalB) %>% spread(Continent, TotalB)
+  dplyr::mutate(TotalB = paste(format(round(Total/1e9, 2), trim = TRUE), "B")) %>% 
+  dplyr::select(Continent, Year, TotalB) %>% 
+  spread(Continent, TotalB)
 
 ctwideB %>%  kable()
+
 ```
 
 ### Questions
