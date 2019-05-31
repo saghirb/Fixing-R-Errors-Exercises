@@ -161,7 +161,7 @@ It can be useful to present the information about which version of R and R packa
 you used.
 
 ```{r RSession}
-sessionInfo() 
+sessionInfo()
 ```
 
 [^UNdata]: Source: https://population.un.org/wpp/Download/Standard/CSV/
