@@ -47,10 +47,10 @@ We start by reading the data from file `World-Population.csv` into object called
 
 ```{r freadData}
 library(dplyr)
-library(tidyR)
-library(readR)
+library(tidyr)
+library(readr)
 library(here)
-wpOrig <- read_csv(here("World-Population.csv")
+wpOrig <- read_csv(here("World-Population.csv"))
 
 glimpse(wpOrig)
 ```
