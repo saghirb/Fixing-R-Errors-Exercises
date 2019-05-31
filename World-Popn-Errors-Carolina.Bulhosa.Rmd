@@ -79,7 +79,7 @@ glimpse(wp)
 > How is the total population changing by continent over time?
 
 We will calculate the total populations for each continent by year. We will also
-add a world total
+add a world total.
 ```{r ContinentTotal}
 ct <- wp %>%
   # Add total for the world
@@ -88,7 +88,7 @@ ct <- wp %>%
   group_by(Continent, Year) %>%
   summarise(TotF = sum(PopF), TotM = sum(PopM), Total = sum(PopT)) %>%
   arrange(Continent, Year)
-glimpse(ctt)
+glimpse(ct)
 ```
 
 We start by plotting the data to see what is happening for each continent over time.
