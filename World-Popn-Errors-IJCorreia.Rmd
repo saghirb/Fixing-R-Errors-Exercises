@@ -50,7 +50,7 @@ library(dplyr)
 library(tidyr)
 library(readr)
 library(here)
-wpOrig <- read_csv(here("World-Population.csv")
+wpOrig <- read_csv(here("World-Population.csv"))
 
 glimpse(wpOrig)
 ```
@@ -61,14 +61,14 @@ We will create a new variables for total number of females and males and remove
 previous versions.
 
 ```{r preprocess}
-wp <- wp0rig %>% 
+wp <- wpOrig %>% 
   rename(Continent=continent, Country=Location, Year=Time) %>% 
   mutate(
     PopF = 1000*PopFemale,
     PopM = 1000*PopMale,
     PopT = PopF + PopM) %>% 
   select(-PopFemale, -PopMale) %>% 
-  arrange(Continent Country, Year, AgeGrpStart)
+  arrange(Continent, Country, Year, AgeGrpStart)
 
 glimpse(wp)
 ```
