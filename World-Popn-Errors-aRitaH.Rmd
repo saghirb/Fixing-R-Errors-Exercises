@@ -112,11 +112,11 @@ There is a lot to absorb in the previous table. Is it better to present the resu
 in billions to make the table readable and easier to interpret.
 
 ```{r ContinentTotalTableB}
-ctwideB <-  ct %>% 
-  mutate(TotalB = paste(format(round(Total/1e9, 2), trim = TRUE), "B") %>% 
-  select(Continent, Year, TotalB) %>% spread(Continent, TotalB)
+ctwideB<- ct %>% 
+  mutate (TotalB = paste(format(round(Total/1e9), 2), trim = TRUE), "B") %>% 
+  select (Continent, Year, TotalB) %>% spread(Continent, TotalB)
 
-ctwideB %>%  kable()
+ctwideB %>%  kable ()
 ```
 
 ### Questions
