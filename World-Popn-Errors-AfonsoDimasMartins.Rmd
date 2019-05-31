@@ -61,7 +61,7 @@ We will create a new variables for total number of females and males and remove
 previous versions.
 
 ```{r preprocess}
-wp <- wp0rig %>% 
+wp <- wpOrig %>% 
   rename(Continent=continent, Country=Location, Year=Time) %>% 
   mutate(
     PopF = 1000*PopFemale,
