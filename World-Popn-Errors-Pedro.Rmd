@@ -94,7 +94,11 @@ glimpse(ctt)
 We start by plotting the data to see what is happening for each continent over time.
 
 ```{r ContinentTotalPlot}
-ct %>% filter(Continent != "World") %>% ggplot(aes(Year, Total, colour=Continent)) +  geom_line()
+
+library(ggplot2)
+
+ctt %>% filter(Continent != "World") %>%
+  ggplot(aes(x = Year, y = Total, colour=Continent)) +  geom_line()
 ```
 
 Let's look at the actual numbers in a "pretty" table. 
@@ -111,8 +115,8 @@ There is a lot to absorb in the previous table. Is it better to present the resu
 in billions to make the table readable and easier to interpret.
 
 ```{r ContinentTotalTableB}
-ctwideB <-  ct %>% 
-  mutate(TotalB = paste(format(round(Total/1e9, 2), trim = TRUE), "B") %>% 
+ctwideB <-  ctt %>% 
+  mutate(TotalB = paste(format(round(Total/1e9, 2), trim = TRUE), "B")) %>% 
   select(Continent, Year, TotalB) %>% spread(Continent, TotalB)
 
 ctwideB %>%  kable()
@@ -133,13 +137,18 @@ In reality it is sufficient to look at either the female or male proportion to u
 the trends. We will look a the female proportions.
 
 ```{r ContinentProp}
-ctprop <- ct %>% mutate(PropF = PopF/total, PropM = PopM/total)
+ctprop <- ctt %>% 
+  mutate(PropF = TotF/Total, PropM = TotM/Total)
 ```
 
 ```{r ContinentPropPlot}
 library(ggplot2)
-ctprop %>%   ggplot(aes(Year, PropF), colour=Continent) %>% geom_line() +
-  geom_hline(yintercept = 0.5, lty=3) + scale_y_continuous(limits = c(.45, .55), 
+
+ctprop %>%   
+  ggplot(aes(x = Year, y = PropF, colour=Continent)) + 
+  geom_line() +
+  geom_line(yintercept = 0.5, lty=3) + 
+  scale_y_continuous(limits = c(.45, .55), 
   breaks = seq(0.45, .55, 0.01)) +  ylab("Female Proportion") 
 ```
 
@@ -147,11 +156,11 @@ Let's look at the female proportions (percentages) in a table.
 
 ```{r ContinentPctTable}
 ctwidePct <-  ctprop %>% 
-  mutate(PctF = paste0(format(round(100*PropF, 1), trim = TRUE), "%")) +
-  select(Continent, Year, PctF) %>% 
-  spread(Continent, PctM)
+  mutate(PctF = paste0(format(round(100*PropF, 1), trim = TRUE), "%")) %>% 
+  select(Continent, Year, PropF, PropM) %>% 
+  spread(Continent, PropM)
 
-ctwidePct %<%  kable()
+ctwidePct %>%  kable()
 ```
 
 ## Session Information
